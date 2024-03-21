@@ -152,10 +152,16 @@ function isDateInPeriod(date, period) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const ndate = new Date(date);
+  const formattedDate = `${ndate.getUTCMonth() + 1}/${ndate.getUTCDate()}/${ndate.getUTCFullYear()}`;
+  let hour = ndate.getUTCHours();
+  const minute = ndate.getMinutes();
+  const second = ndate.getSeconds();
+  const amPm = hour >= 12 ? 'PM' : 'AM';
+  hour = hour > 12 ? hour - 12 : hour;
+  return `${formattedDate}, ${hour}:${`0${minute}`.slice(-2)}:${`0${second}`.slice(-2)} ${amPm}`;
 }
-
 /**
  * Returns the total number of weekend days (Saturdays and Sundays) in a specified month and year.
  *
@@ -168,8 +174,16 @@ function formatDate(/* date */) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const date = new Date(Date.UTC(year, month - 1, 1));
+  let days = getCountDaysInMonth(month, year);
+  let result = 0;
+  while (days > 0) {
+    if (date.getUTCDay() === 0 || date.getUTCDay() === 6) result += 1;
+    days -= 1;
+    date.setUTCDate(date.getUTCDate() + 1);
+  }
+  return result;
 }
 
 /**
@@ -185,10 +199,20 @@ function getCountWeekendsInMonth(/* month, year */) {
  * Date(2024, 0, 31) => 5
  * Date(2024, 1, 23) => 8
  */
-function getWeekNumberByDate(/* date */) {
-  throw new Error('Not implemented');
+function getWeekNumberByDate(date) {
+  const firstDate = new Date(Date.UTC(date.getFullYear(), 0, 1));
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const days = (date - firstDate) / msPerDay;
+  let week = Math.trunc(days / 7) + 1;
+  if (Math.ceil(days % 7) !== 0) week += 1;
+  const firstWeek = firstDate.getUTCDay() === 0 ? 7 : firstDate.getUTCDay();
+  if (
+    (Math.round(days % 7) > firstWeek && Math.round(days % 7) !== 7) ||
+    (Math.trunc(days % 7) === 0 && firstWeek !== 7)
+  )
+    week -= 1;
+  return week;
 }
-
 /**
  * Returns the date of the next Friday the 13th from a given date.
  * Friday the 13th is considered an unlucky day in some cultures.
