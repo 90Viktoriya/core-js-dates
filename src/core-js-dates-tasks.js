@@ -204,8 +204,6 @@ function getWeekNumberByDate(date) {
   const msPerDay = 24 * 60 * 60 * 1000;
   const days = (date - firstDate) / msPerDay;
   let week = Math.trunc(days / 7) + 1;
-  console.log(week);
-  console.log(days % 7);
   if (Math.ceil(days % 7) !== 0) week += 1;
   const firstWeek = firstDate.getUTCDay() === 0 ? 7 : firstDate.getUTCDay();
   if (
