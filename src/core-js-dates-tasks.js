@@ -76,7 +76,7 @@ function getDayName(date) {
 function getNextFriday(date) {
   const days = [5, 4, 3, 2, 1, 7, 6];
   const ndate = new Date(date);
-  ndate.setDate(ndate.getUTCDate() + days[ndate.getUTCDay()]);
+  ndate.setDate(ndate.getUTCDate() + days[ndate.getUTCDay()] - 1);
   return ndate;
 }
 
