@@ -204,15 +204,18 @@ function getWeekNumberByDate(date) {
   const msPerDay = 24 * 60 * 60 * 1000;
   const days = (date - firstDate) / msPerDay;
   let week = Math.trunc(days / 7) + 1;
+  console.log(week);
+  console.log(days % 7);
   if (Math.ceil(days % 7) !== 0) week += 1;
   const firstWeek = firstDate.getUTCDay() === 0 ? 7 : firstDate.getUTCDay();
   if (
     (Math.round(days % 7) > firstWeek && Math.round(days % 7) !== 7) ||
-    (Math.trunc(days % 7) === 0 && firstWeek !== 7)
+    (Math.trunc(days % 7) <= 1 && firstWeek !== 7)
   )
     week -= 1;
   return week;
 }
+
 /**
  * Returns the date of the next Friday the 13th from a given date.
  * Friday the 13th is considered an unlucky day in some cultures.
