@@ -53,13 +53,13 @@ function getDayName(date) {
     'Sunday',
     'Monday',
     'Tuesday',
-    'Wendsday',
+    'Wednesday',
     'Thursday',
     'Friday',
     'Saturday',
   ];
   const ndate = new Date(date);
-  return days[ndate.getDay()];
+  return days[ndate.getUTCDay()];
 }
 
 /**
@@ -76,7 +76,7 @@ function getDayName(date) {
 function getNextFriday(date) {
   const days = [5, 4, 3, 2, 1, 7, 6];
   const ndate = new Date(date);
-  ndate.setDate(ndate.getDate() + days[ndate.getDay()]);
+  ndate.setDate(ndate.getUTCDate() + days[ndate.getUTCDay()]);
   return ndate;
 }
 
@@ -229,7 +229,7 @@ function getNextFridayThe13th(date) {
   if (date.getUTCDate() < 13)
     ndate = new Date(date.getUTCFullYear(), date.getUTCMonth(), 13);
   else ndate = new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, 13);
-  while (ndate.getUTCDay() !== 4) ndate.setUTCMonth(ndate.getUTCMonth() + 1);
+  while (ndate.getUTCDay() !== 5) ndate.setUTCMonth(ndate.getUTCMonth() + 1);
   return ndate;
 }
 
@@ -247,13 +247,17 @@ function getNextFridayThe13th(date) {
 function getQuarter(date) {
   const month = date.getUTCMonth();
   switch (month) {
-    case 11:
+    case 2:
     case 0:
     case 1:
       return 1;
-    case (2, 3, 4):
+    case 5:
+    case 3:
+    case 4:
       return 2;
-    case (5, 6, 7):
+    case 8:
+    case 6:
+    case 7:
       return 3;
     default:
       return 4;
