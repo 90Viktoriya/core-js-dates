@@ -76,7 +76,7 @@ function getDayName(date) {
 function getNextFriday(date) {
   const days = [5, 4, 3, 2, 1, 7, 6];
   const ndate = new Date(date);
-  ndate.setDate(ndate.getUTCDate() + days[ndate.getUTCDay()] - 1);
+  ndate.setDate(ndate.getUTCDate() + days[ndate.getUTCDay()]);
   return ndate;
 }
 
@@ -208,7 +208,7 @@ function getWeekNumberByDate(date) {
   const firstWeek = firstDate.getUTCDay() === 0 ? 7 : firstDate.getUTCDay();
   if (
     (Math.round(days % 7) > firstWeek && Math.round(days % 7) !== 7) ||
-    (Math.trunc(days % 7) <= 1 && firstWeek !== 7)
+    (Math.trunc(days % 7) === 1 && firstWeek !== 7)
   )
     week -= 1;
   return week;
